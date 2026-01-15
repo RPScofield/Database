@@ -255,7 +255,7 @@ def export():
     output.seek(0)
     
     return send_file(
-        io.BytesIO(output.read()),
+        output,
         mimetype='text/csv',
         as_attachment=True,
         download_name='gisement_export.csv'
@@ -266,7 +266,11 @@ def export():
 def delete(id):
     """Delete a record"""
     try:
-        record = db.get_or_404(Gisement, id)
+        record = db.session.get(Gisement, id)
+        if record is None:
+            flash('Record not found', 'error')
+            return redirect(url_for('query'))
+        
         db.session.delete(record)
         db.session.commit()
         flash('Record deleted successfully!', 'success')
