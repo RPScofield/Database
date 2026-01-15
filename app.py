@@ -9,7 +9,14 @@ import io
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///gisement.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
+# Secret key from environment or generate a random one for development
+# WARNING: In production, always set SECRET_KEY environment variable
+if 'SECRET_KEY' in os.environ:
+    app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
+else:
+    import secrets
+    app.config['SECRET_KEY'] = secrets.token_hex(32)
+    print("WARNING: Using auto-generated secret key. Set SECRET_KEY environment variable for production!")
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
 db = SQLAlchemy(app)
