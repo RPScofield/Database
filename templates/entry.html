@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Single Entry - Madagascar Geological Gisement{% endblock %}
+
+{% block content %}
+<h2>Add New Gisement Record</h2>
+
+<form method="POST" action="{{ url_for('entry') }}" style="margin-top: 20px;">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <div class="grid-2">
+        <div class="form-group">
+            <label for="gisement_no">Gisement No. (with collector initials) *</label>
+            <input type="text" id="gisement_no" name="gisement_no" required 
+                   placeholder="e.g., JD-001">
+        </div>
+        
+        <div class="form-group">
+            <label for="collector">Collector (First name/initials and Surname) *</label>
+            <input type="text" id="collector" name="collector" required 
+                   placeholder="e.g., John Doe">
+        </div>
+    </div>
+    
+    <div class="grid-2">
+        <div class="form-group">
+            <label for="date">Date *</label>
+            <input type="date" id="date" name="date" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="locality">Locality *</label>
+            <input type="text" id="locality" name="locality" required 
+                   placeholder="e.g., Ambatomainty">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="locality_details">Locality Details</label>
+        <input type="text" id="locality_details" name="locality_details" 
+               placeholder="e.g., 5km north of village">
+    </div>
+    
+    <div class="grid-2">
+        <div class="form-group">
+            <label for="geological_age">Geological Age</label>
+            <input type="text" id="geological_age" name="geological_age" 
+                   placeholder="e.g., Cretaceous">
+        </div>
+        
+        <div class="form-group">
+            <label for="geological_age_subzone">Geological Age Subzone</label>
+            <input type="text" id="geological_age_subzone" name="geological_age_subzone" 
+                   placeholder="e.g., Upper Cretaceous">
+        </div>
+    </div>
+    
+    <div class="grid-2">
+        <div class="form-group">
+            <label for="laborde_x">Laborde Coordinate X</label>
+            <input type="number" step="0.000001" id="laborde_x" name="laborde_x" 
+                   placeholder="e.g., 450000">
+        </div>
+        
+        <div class="form-group">
+            <label for="laborde_y">Laborde Coordinate Y</label>
+            <input type="number" step="0.000001" id="laborde_y" name="laborde_y" 
+                   placeholder="e.g., 8500000">
+        </div>
+    </div>
+    
+    <div class="grid-2">
+        <div class="form-group">
+            <label for="latitude">Latitude (South)</label>
+            <input type="number" step="0.000001" id="latitude" name="latitude" 
+                   placeholder="e.g., -18.9167">
+        </div>
+        
+        <div class="form-group">
+            <label for="longitude">Longitude (East)</label>
+            <input type="number" step="0.000001" id="longitude" name="longitude" 
+                   placeholder="e.g., 47.5167">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="species_recorded">Species Recorded</label>
+        <textarea id="species_recorded" name="species_recorded" 
+                  placeholder="List all species found at this gisement (one per line or comma-separated)"></textarea>
+    </div>
+    
+    <button type="submit">Add Record</button>
+    <a href="{{ url_for('index') }}" class="btn btn-secondary" style="margin-left: 10px;">Cancel</a>
+</form>
+{% endblock %}
