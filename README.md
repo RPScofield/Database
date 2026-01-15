@@ -46,6 +46,12 @@ export SECRET_KEY="your-secure-random-secret-key-here"
 python app.py
 ```
 
+For development with debug mode:
+```bash
+export FLASK_DEBUG=1
+python app.py
+```
+
 5. Open your web browser and navigate to:
 ```
 http://localhost:5000
