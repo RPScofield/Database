@@ -36,12 +36,17 @@ cd Database
 pip install -r requirements.txt
 ```
 
-3. Run the application:
+3. (Optional) Set a secure secret key for production:
+```bash
+export SECRET_KEY="your-secure-random-secret-key-here"
+```
+
+4. Run the application:
 ```bash
 python app.py
 ```
 
-4. Open your web browser and navigate to:
+5. Open your web browser and navigate to:
 ```
 http://localhost:5000
 ```
@@ -84,6 +89,7 @@ JD-002,Jane Smith,2024-01-16,Antsirabe,Near river,Jurassic,Middle Jurassic,45500
 
 - **Backend**: Flask (Python web framework)
 - **Database**: SQLite (embedded database)
+- **Security**: Flask-WTF with CSRF protection
 - **Frontend**: HTML5, CSS3, Jinja2 templates
 - **Data Processing**: Pandas (for CSV/Excel import)
 

@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, send_file
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf.csrf import CSRFProtect
 from datetime import datetime
 import pandas as pd
 import os
@@ -8,10 +9,11 @@ import io
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///gisement.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'madagascar-geological-database-secret-key'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
 db = SQLAlchemy(app)
+csrf = CSRFProtect(app)
 
 
 class Gisement(db.Model):
@@ -66,6 +68,13 @@ def entry():
             date_str = request.form.get('date')
             date_obj = datetime.strptime(date_str, '%Y-%m-%d').date() if date_str else None
             
+            # Safely parse float values
+            def safe_float(value):
+                try:
+                    return float(value) if value else None
+                except (ValueError, TypeError):
+                    return None
+            
             # Create new gisement record
             gisement = Gisement(
                 gisement_no=request.form.get('gisement_no'),
@@ -75,10 +84,10 @@ def entry():
                 locality_details=request.form.get('locality_details'),
                 geological_age=request.form.get('geological_age'),
                 geological_age_subzone=request.form.get('geological_age_subzone'),
-                laborde_x=float(request.form.get('laborde_x')) if request.form.get('laborde_x') else None,
-                laborde_y=float(request.form.get('laborde_y')) if request.form.get('laborde_y') else None,
-                latitude=float(request.form.get('latitude')) if request.form.get('latitude') else None,
-                longitude=float(request.form.get('longitude')) if request.form.get('longitude') else None,
+                laborde_x=safe_float(request.form.get('laborde_x')),
+                laborde_y=safe_float(request.form.get('laborde_y')),
+                latitude=safe_float(request.form.get('latitude')),
+                longitude=safe_float(request.form.get('longitude')),
                 species_recorded=request.form.get('species_recorded')
             )
             
@@ -257,7 +266,7 @@ def export():
 def delete(id):
     """Delete a record"""
     try:
-        record = Gisement.query.get_or_404(id)
+        record = db.get_or_404(Gisement, id)
         db.session.delete(record)
         db.session.commit()
         flash('Record deleted successfully!', 'success')

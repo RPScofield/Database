@@ -6,6 +6,7 @@
 <h2>Add New Gisement Record</h2>
 
 <form method="POST" action="{{ url_for('entry') }}" style="margin-top: 20px;">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
     <div class="grid-2">
         <div class="form-group">
             <label for="gisement_no">Gisement No. (with collector initials) *</label>
