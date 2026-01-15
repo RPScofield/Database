@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}Query Data - Madagascar Geological Gisement{% endblock %}
+
+{% block content %}
+<h2>Query Gisement Records</h2>
+
+<div class="card" style="margin-top: 20px;">
+    <h3>Search Filters</h3>
+    <form method="GET" action="{{ url_for('query') }}">
+        <div class="grid-2">
+            <div class="form-group">
+                <label for="gisement_no">Gisement No.</label>
+                <input type="text" id="gisement_no" name="gisement_no" 
+                       value="{{ gisement_no }}" placeholder="Search by gisement number">
+            </div>
+            
+            <div class="form-group">
+                <label for="collector">Collector</label>
+                <input type="text" id="collector" name="collector" 
+                       value="{{ collector }}" placeholder="Search by collector name">
+            </div>
+        </div>
+        
+        <div class="grid-2">
+            <div class="form-group">
+                <label for="locality">Locality</label>
+                <input type="text" id="locality" name="locality" 
+                       value="{{ locality }}" placeholder="Search by locality">
+            </div>
+            
+            <div class="form-group">
+                <label for="geological_age">Geological Age</label>
+                <input type="text" id="geological_age" name="geological_age" 
+                       value="{{ geological_age }}" placeholder="Search by geological age">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="species">Species</label>
+            <input type="text" id="species" name="species" 
+                   value="{{ species }}" placeholder="Search by species">
+        </div>
+        
+        <button type="submit">Search</button>
+        <a href="{{ url_for('query') }}" class="btn btn-secondary" style="margin-left: 10px;">Clear Filters</a>
+    </form>
+</div>
+
+<div class="card">
+    <h3>Results ({{ results|length }} records found)</h3>
+    
+    {% if results %}
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Gisement No.</th>
+                        <th>Collector</th>
+                        <th>Date</th>
+                        <th>Locality</th>
+                        <th>Geological Age</th>
+                        <th>Coordinates</th>
+                        <th>Species</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in results %}
+                    <tr>
+                        <td>{{ record.gisement_no }}</td>
+                        <td>{{ record.collector }}</td>
+                        <td>{{ record.date.strftime('%Y-%m-%d') if record.date else 'N/A' }}</td>
+                        <td>
+                            {{ record.locality }}
+                            {% if record.locality_details %}
+                                <br><small style="color: #666;">{{ record.locality_details }}</small>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ record.geological_age or 'N/A' }}
+                            {% if record.geological_age_subzone %}
+                                <br><small style="color: #666;">{{ record.geological_age_subzone }}</small>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if record.laborde_x and record.laborde_y %}
+                                <strong>Laborde:</strong> {{ "%.2f"|format(record.laborde_x) }}, {{ "%.2f"|format(record.laborde_y) }}<br>
+                            {% endif %}
+                            {% if record.latitude and record.longitude %}
+                                <strong>Lat/Long:</strong> {{ "%.4f"|format(record.latitude) }}°S, {{ "%.4f"|format(record.longitude) }}°E
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if record.species_recorded %}
+                                {{ record.species_recorded[:50] }}{% if record.species_recorded|length > 50 %}...{% endif %}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                        <td>
+                            <form method="POST" action="{{ url_for('delete', id=record.id) }}" 
+                                  onsubmit="return confirm('Are you sure you want to delete this record?');" 
+                                  style="display: inline;">
+                                <button type="submit" class="btn btn-danger" 
+                                        style="padding: 5px 10px; font-size: 0.9em;">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p style="margin-top: 20px; color: #666;">No records found. Try adjusting your search filters or add new records.</p>
+    {% endif %}
+</div>
+{% endblock %}

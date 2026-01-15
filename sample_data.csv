@@ -1,0 +1,4 @@
+gisement_no,collector,date,locality,locality_details,geological_age,geological_age_subzone,laborde_x,laborde_y,latitude,longitude,species_recorded
+JD-001,John Doe,2024-01-15,Ambatomainty,5km north of village,Cretaceous,Upper Cretaceous,450000,8500000,-18.9167,47.5167,"Species A; Species B"
+JS-002,Jane Smith,2024-01-16,Antsirabe,Near river,Jurassic,Middle Jurassic,455000,8505000,-19.8667,47.0333,Species C
+RPS-003,Robert P. Scofield,2024-01-20,Toliara,Coastal area,Triassic,Lower Triassic,440000,8490000,-23.3500,43.6667,"Species D; Species E; Species F"

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Bulk Import - Madagascar Geological Gisement{% endblock %}
+
+{% block content %}
+<h2>Bulk Import from Spreadsheet</h2>
+
+<div class="card" style="margin-top: 20px;">
+    <h3>Import Instructions</h3>
+    <ol style="margin-left: 20px; line-height: 2;">
+        <li>Prepare your spreadsheet (CSV or Excel format) with the following columns:</li>
+        <ul style="margin-left: 20px;">
+            <li><strong>gisement_no</strong> - Gisement number with collector initials</li>
+            <li><strong>collector</strong> - Collector name</li>
+            <li><strong>date</strong> - Date in YYYY-MM-DD format</li>
+            <li><strong>locality</strong> - Primary location</li>
+            <li><strong>locality_details</strong> - Additional location information</li>
+            <li><strong>geological_age</strong> - Geological age</li>
+            <li><strong>geological_age_subzone</strong> - Age subzone</li>
+            <li><strong>laborde_x</strong> - Laborde X coordinate</li>
+            <li><strong>laborde_y</strong> - Laborde Y coordinate</li>
+            <li><strong>latitude</strong> - Latitude (South)</li>
+            <li><strong>longitude</strong> - Longitude (East)</li>
+            <li><strong>species_recorded</strong> - Species data</li>
+        </ul>
+        <li>Ensure column names match exactly (case-sensitive)</li>
+        <li>Upload your file using the form below</li>
+    </ol>
+</div>
+
+<div class="card">
+    <h3>Sample CSV Template</h3>
+    <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto;">gisement_no,collector,date,locality,locality_details,geological_age,geological_age_subzone,laborde_x,laborde_y,latitude,longitude,species_recorded
+JD-001,John Doe,2024-01-15,Ambatomainty,5km north of village,Cretaceous,Upper Cretaceous,450000,8500000,-18.9167,47.5167,Species A; Species B
+JD-002,Jane Smith,2024-01-16,Antsirabe,Near river,Jurassic,Middle Jurassic,455000,8505000,-19.8667,47.0333,Species C</pre>
+</div>
+
+<div class="card">
+    <h3>Upload File</h3>
+    <form method="POST" enctype="multipart/form-data" style="margin-top: 20px;">
+        <div class="form-group">
+            <label for="file">Select CSV or Excel File</label>
+            <input type="file" id="file" name="file" accept=".csv,.xlsx,.xls" required>
+        </div>
+        
+        <button type="submit">Import Records</button>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary" style="margin-left: 10px;">Cancel</a>
+    </form>
+</div>
+{% endblock %}

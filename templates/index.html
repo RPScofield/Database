@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>Welcome to the Madagascar Geological Gisement Database</h2>
+    <p style="margin-top: 15px; line-height: 1.6;">
+        This platform allows you to manage geological gisement data for Madagascar. 
+        You can enter single records, bulk import from spreadsheets, and query existing data.
+    </p>
+</div>
+
+<div class="grid-2">
+    <div class="card">
+        <h3>➕ Single Entry</h3>
+        <p>Add individual gisement records with all required fields including location, collector information, and species data.</p>
+        <a href="{{ url_for('entry') }}" class="btn" style="margin-top: 15px;">Start Entry</a>
+    </div>
+    
+    <div class="card">
+        <h3>📊 Bulk Import</h3>
+        <p>Import multiple records at once from CSV or Excel spreadsheets. Download the template to get started.</p>
+        <a href="{{ url_for('bulk_import') }}" class="btn" style="margin-top: 15px;">Import Data</a>
+    </div>
+</div>
+
+<div class="grid-2">
+    <div class="card">
+        <h3>🔍 Query Data</h3>
+        <p>Search and filter gisement records by location, collector, geological age, species, and more.</p>
+        <a href="{{ url_for('query') }}" class="btn" style="margin-top: 15px;">Query Records</a>
+    </div>
+    
+    <div class="card">
+        <h3>💾 Export Data</h3>
+        <p>Export all records to CSV format for use in other applications or for backup purposes.</p>
+        <a href="{{ url_for('export') }}" class="btn" style="margin-top: 15px;">Export CSV</a>
+    </div>
+</div>
+
+<div class="card">
+    <h3>📋 Required Fields</h3>
+    <ul style="margin-top: 10px; margin-left: 20px; line-height: 2;">
+        <li><strong>Gisement No.</strong> - With initials of collector as prefix</li>
+        <li><strong>Collector</strong> - First name or initials and surname</li>
+        <li><strong>Date</strong> - Collection date</li>
+        <li><strong>Locality</strong> - Primary location</li>
+        <li><strong>Locality Details</strong> - Additional location info (e.g., distance from village)</li>
+        <li><strong>Geological Age</strong> - Age classification</li>
+        <li><strong>Geological Age Subzone</strong> - Subzone classification</li>
+        <li><strong>Laborde Coordinates</strong> - X and Y coordinates</li>
+        <li><strong>Lat/Long</strong> - Latitude (S) and Longitude (E)</li>
+        <li><strong>Species Recorded</strong> - Species found at the gisement</li>
+    </ul>
+</div>
+{% endblock %}
